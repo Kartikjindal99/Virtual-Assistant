@@ -121,7 +121,7 @@ h1 {
 }
 
 video.show {
-    display: block;
+    display: none;
     opacity: 1;
     transform: scale(1);
     animation: pulse 1.5s infinite ease-in-out;
