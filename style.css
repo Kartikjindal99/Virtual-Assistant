@@ -1,97 +1,241 @@
 @import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&family=Ubuntu:wght@300;400;500;700&family=Varela+Round&display=swap');
 
-*{
+/* Universal box-sizing for consistent layout */
+* {
     margin: 0;
     padding: 0;
-    box-sizing:border-box;
+    box-sizing: border-box;
 }
 
-body{
+body {
     width: 100%;
-    height: 100%;
+    /* Use min-height for adaptability, ensures content fits even if short */
+    min-height: 100vh;
     background-color: black;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 30px;
+    /* Use a responsive gap for spacing between elements */
+    gap: 5vw; /* Adjusts with viewport width */
     flex-direction: column;
+    /* Prevent scrollbar during initial animations or slight overflows */
+    overflow-x: hidden; 
+
+    /* Initial state for fade-in (as suggested in previous response) */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease-out forwards;
 }
-#logo{
-    margin-top: 10rem;
-    width: 20vw;
-    transition: margin-top .5s ease;
+
+/* Keyframe for body fade-in */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-h1{
-    color:aliceblue;
+
+#logo {
+    margin-top: 10rem; /* Initial margin for animation */
+    width: 30vw; /* Make logo width responsive */
+    max-width: 250px; /* Cap the max size for very large screens */
+    min-width: 100px; /* Ensure a minimum size for very small screens */
+    transition: margin-top .5s ease-in-out, transform .5s ease-in-out;
+    will-change: margin-top, transform;
+}
+
+/* Class for shrinking logo (as suggested in previous response) */
+#logo.shrink {
+    margin-top: 0;
+    transform: scale(0.7);
+}
+
+h1 {
+    color: aliceblue;
     font-family: "Protest Guerrilla", sans-serif;
-    font-size: 3rem;
+    /* Make font size responsive */
+    font-size: 8vw; /* Adjusts with viewport width */
+    text-align: center;
+    line-height: 1.2; /* Improve readability for multi-line text */
 }
 
-
-#name{
-    color: rgb(212,43,122);
-    font-size: 4rem;
+#name {
+    color: rgb(212, 43, 122);
+    /* Make font size responsive, slightly larger than h1 */
+    font-size: 10vw; /* Adjusts with viewport width */
+    white-space: nowrap; /* Prevent "Reshu" from breaking */
 }
 
-#va{
+#va {
     color: rgb(24, 149, 135);
-    font-size: 3.5rem;
+    /* Make font size responsive */
+    font-size: 9vw; /* Adjusts with viewport width */
+    white-space: nowrap; /* Prevent "Virtual Assistant" from breaking */
 }
+
 #btn {
-    width: 30rem;
+    width: 80vw; /* Make button width responsive */
+    max-width: 30rem; /* Cap the max width */
+    min-width: 250px; /* Ensure a minimum width for usability */
     background: linear-gradient(to right, rgb(0, 255, 255), rgb(183, 0, 255));
     padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    font-size: 2rem;
+    /* Make font size responsive */
+    font-size: 6vw; /* Adjusts with viewport width */
     border-radius: 2rem;
     color: white;
     border: none;
     cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), 0 0 15px rgba(183, 0, 255, 0.4);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease-in-out;
+    will-change: transform, box-shadow;
+}
 
-    /* Glow and smooth interaction */
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), 0 0 20px rgba(183, 0, 255, 0.4);
-    
-    transition: transform 0.3s ease, box-shadow 0.4s ease;
+#btn img {
+    height: 1.5em; /* Make mic icon size relative to font size */
+    width: auto;
 }
 
 #btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.7), 0 0 30px rgba(183, 0, 255, 0.7);
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.6), 0 0 25px rgba(183, 0, 255, 0.6);
 }
 
 #btn:active {
-    transform: scale(0.95);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), 0 0 15px rgba(183, 0, 255, 0.6);
+    transform: scale(0.97);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 10px rgba(183, 0, 255, 0.5);
 }
+
 #voice {
-    width: 15rem;
+    width: 35vw; /* Make video width responsive */
+    max-width: 200px; /* Cap the max width */
+    min-width: 100px; /* Ensure minimum width */
     opacity: 0;
     display: none;
-    transition: opacity 1.2s ease;
-    animation: pulse 1s infinite ease-in-out;
-    box-shadow: 0 1rem 2rem rgba(53, 3, 3, 0.3);
-}
-
-
-video {
-  display: none;
-  opacity: 0;
-  transition: opacity 1.2s ease; /* ⬅️ Transition time badha diya */
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    will-change: opacity, transform;
 }
 
 video.show {
     display: block;
     opacity: 1;
+    transform: scale(1);
+    animation: pulse 1.5s infinite ease-in-out;
+    box-shadow: 0 1rem 2rem rgba(53, 3, 3, 0.3);
 }
 
-
+video.hide {
+    opacity: 0;
+    transform: scale(0.9);
+}
 
 @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
+#content {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    display: inline-block;
+    will-change: opacity, transform;
+}
+
+#content.fade-out {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+
+#content.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Media Queries for Fine-tuning on Different Screens --- */
+
+/* For screens smaller than 768px (e.g., typical tablets in portrait, large phones) */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 7vw;
+    }
+    #name {
+        font-size: 9vw;
+    }
+    #va {
+        font-size: 8vw;
+    }
+    #btn {
+        font-size: 5vw;
+        padding: 0.8rem;
+    }
+    #btn img {
+        height: 1.2em;
+    }
+    #logo {
+        margin-top: 8rem; /* Adjust initial margin for smaller screens */
+        width: 35vw;
+    }
+    #voice {
+        width: 40vw;
+    }
+}
+
+/* For screens smaller than 480px (e.g., most mobile phones) */
+@media (max-width: 480px) {
+    body {
+        gap: 8vw; /* Increase gap for more breathing room on small screens */
+    }
+    h1 {
+        font-size: 6.5vw;
+        margin: 0 10px; /* Add horizontal margin to prevent text touching edges */
+    }
+    #name {
+        font-size: 8.5vw;
+    }
+    #va {
+        font-size: 7.5vw;
+    }
+    #btn {
+        width: 85vw; /* Make button even wider on small screens */
+        font-size: 4.5vw;
+        padding: 0.7rem;
+        border-radius: 1.5rem; /* Slightly smaller border-radius */
+    }
+    #btn img {
+        height: 1em;
+    }
+    #logo {
+        margin-top: 6rem; /* Further reduce initial margin */
+        width: 45vw; /* Make logo larger on very small screens */
+    }
+    #voice {
+        width: 50vw; /* Make video larger on very small screens */
+    }
+}
+
+/* For screens larger than 1200px (e.g., large desktops) */
+@media (min-width: 1200px) {
+    h1 {
+        font-size: 3.5rem; /* Set fixed max size */
+    }
+    #name {
+        font-size: 4.5rem;
+    }
+    #va {
+        font-size: 4rem;
+    }
+    #btn {
+        font-size: 2.2rem;
+    }
+    #logo {
+        width: 15vw; /* Smaller on very large screens to not dominate */
+        max-width: 200px;
+    }
+    #voice {
+        width: 15rem; /* Fixed size */
+    }
+}
